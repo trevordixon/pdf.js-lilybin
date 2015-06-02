@@ -216,6 +216,7 @@ var PDFViewerApplication = {
       openFile: document.getElementById('secondaryOpenFile'),
       print: document.getElementById('secondaryPrint'),
       download: document.getElementById('secondaryDownload'),
+      midi: document.getElementById('secondaryMidi'),
       viewBookmark: document.getElementById('secondaryViewBookmark'),
       firstPage: document.getElementById('firstPage'),
       lastPage: document.getElementById('lastPage'),
@@ -611,6 +612,18 @@ var PDFViewerApplication = {
       },
       downloadByUrl // Error occurred try downloading with just the url.
     ).then(null, downloadByUrl);
+  },
+
+  midi: function midiDownload() {
+    if (!this.id) return;
+    var url = '/downloadMidi?id=' + this.id;
+    var downloadManager = new DownloadManager();
+    downloadManager.onerror = function (err) {
+      // This error won't really be helpful because it's likely the
+      // fallback won't work either (or is already open).
+      PDFViewerApplication.error('MIDI failed to download.');
+    };
+    downloadManager.downloadUrl(url, 'score.midi');
   },
 
   fallback: function pdfViewFallback(featureId) {
@@ -1482,6 +1495,9 @@ function webViewerInitialized() {
 
   document.getElementById('download').addEventListener('click',
     SecondaryToolbar.downloadClick.bind(SecondaryToolbar));
+
+  document.getElementById('midi').addEventListener('click',
+    SecondaryToolbar.midiClick.bind(SecondaryToolbar));
 
 //#if (FIREFOX || MOZCENTRAL)
 //PDFViewerApplication.setTitleUsingUrl(file);
