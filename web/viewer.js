@@ -551,17 +551,21 @@ var PDFViewerApplication = {
         var loadingErrorMessage = mozL10n.get('loading_error', null,
           'An error occurred while loading the PDF.');
 
+        var errStr = '';
         if (exception instanceof PDFJS.InvalidPDFException) {
           // change error message also for other builds
           loadingErrorMessage = mozL10n.get('invalid_file_error', null,
                                             'Invalid or corrupted PDF file.');
+          errStr = 'invalid_file_error';
         } else if (exception instanceof PDFJS.MissingPDFException) {
           // special message for missing PDF's
           loadingErrorMessage = mozL10n.get('missing_file_error', null,
                                             'Missing PDF file.');
+          errStr = 'missing_file_error';
         } else if (exception instanceof PDFJS.UnexpectedResponseException) {
           loadingErrorMessage = mozL10n.get('unexpected_response_error', null,
                                             'Unexpected server response.');
+          errStr = 'unexpected_response_error';
         }
 //#if B2G
 //      window.alert(loadingErrorMessage);
@@ -573,6 +577,7 @@ var PDFViewerApplication = {
         };
         self.error(loadingErrorMessage, moreInfo);
         self.loading = false;
+        postToParent('loaded', { sucess: false, errStr: errStr });
       }
     );
 
@@ -869,6 +874,7 @@ var PDFViewerApplication = {
     // outline depends on pagesRefMap
     var promises = [pagesPromise, this.animationStartedPromise];
     Promise.all(promises).then(function() {
+      postToParent('loaded', { success: true });
       pdfDocument.getOutline().then(function(outline) {
         var container = document.getElementById('outlineView');
         self.outline = new PDFOutlineView({
@@ -2161,4 +2167,10 @@ function receiveMessage(event) {
   var obj = event.data;
   PDFViewerApplication.id = obj.id;
   PDFViewerApplication.open(obj.url, 0);
+}
+
+function postToParent(type, msg) {
+  msg = msg || {};
+  msg.type = type;
+  parent.postMessage(msg, document.location.origin);
 }
