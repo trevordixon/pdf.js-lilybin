@@ -1285,6 +1285,7 @@ function webViewerInitialized() {
 
 //#if !(FIREFOX || MOZCENTRAL)
   var locale = PDFJS.locale || navigator.language;
+  locale = 'en-US';
 //#endif
 
 //#if !PRODUCTION
