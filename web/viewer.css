@@ -2021,4 +2021,5 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
   -webkit-font-smoothing: antialiased;
   font-size: 14px;
   color: hsla(0, 0%, 100%, 0.9);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
