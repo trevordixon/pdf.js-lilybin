@@ -918,7 +918,7 @@ html[dir='rtl'] .dropdownToolbarButton {
   font-size: 12px;
   color: hsl(0,0%,95%);
   margin: 0;
-  padding: 3px 2px 2px;
+  padding: 4px 2px 3px;
   border: none;
   background: rgba(0,0,0,0); /* Opera does not support 'transparent' <select> background */
 }
@@ -2000,7 +2000,16 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
 }
 
 /* LilyBin specific */
+/* We don't want users to open their own files */
 .openFile {
+  display: none !important;
+}
+/* Bookmarking doesn't work */
+.bookmark {
+  display: none !important;
+}
+/* Printing is very blurry */
+.print {
   display: none !important;
 }
 
