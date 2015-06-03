@@ -1951,14 +1951,6 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
   #outerContainer .visibleMediumView {
     display: none;
   }
-
-  #overlayContainer > .container > .dialog {
-    position: absolute;
-    top: 10px;
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
-  }
 }
 
 @media all and (max-width: 700px) {
@@ -2010,6 +2002,16 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
 /* LilyBin specific */
 .openFile {
   display: none !important;
+}
+
+@media all and (max-height: 400px) {
+  #overlayContainer > .container > .dialog {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+  }
 }
 
 @font-face{
