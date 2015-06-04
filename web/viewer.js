@@ -621,12 +621,20 @@ var PDFViewerApplication = {
 
   midi: function midiDownload() {
     if (!this.id) return;
+    if (!this.midiAvailable) {
+      return postToParent('error', {
+        text: 'No MIDI generated during compilation. You should\n' +
+              'add `\\midi{}` to the `\\score{}` block.'
+      });
+    }
     var url = '/downloadMidi?id=' + this.id;
     var downloadManager = new DownloadManager();
     downloadManager.onerror = function (err) {
       // This error won't really be helpful because it's likely the
       // fallback won't work either (or is already open).
-      PDFViewerApplication.error('MIDI failed to download.');
+      postToParent('error', {
+        text: 'MIDI failed to download.'
+      });
     };
     downloadManager.downloadUrl(url, 'score.midi');
   },
@@ -2180,6 +2188,12 @@ function receiveMessage(event) {
   if (event.origin !== document.location.origin) return;
   var obj = event.data;
   PDFViewerApplication.id = obj.id;
+  PDFViewerApplication.midiAvailable = obj.midi;
+  var midiEls = document.getElementsByClassName('midi');
+  var func = obj.midi ? 'remove' : 'add';
+  for (var i = 0; i < midiEls.length; i++) {
+    midiEls[i].classList[func]('disabled');
+  }
   PDFViewerApplication.open(obj.url, 0);
 }
 
