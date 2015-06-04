@@ -555,7 +555,10 @@ html[dir='rtl'] .splitToolbarButton > .toolbarButton {
 
 .toolbarButton[disabled],
 .secondaryToolbarButton[disabled],
-.overlayButton[disabled] {
+.overlayButton[disabled],
+.toolbarButton.disabled,
+.secondaryToolbarButton.disabled,
+.overlayButton.disabled {
   opacity: .5;
 }
 
